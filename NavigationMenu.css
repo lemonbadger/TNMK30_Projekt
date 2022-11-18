@@ -1,0 +1,45 @@
+.navbar{
+    overflow: hidden;
+    background-color: rgb(20, 20, 230);
+    position: fixed;
+    width: 100%;
+}
+.navbar a{
+    color: darkorange;
+}
+input{
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+input:checked + label{
+    background: #5b5959;
+}
+input:checked + label:after{
+    left: 187px;
+    transform: translateX(-100%);
+}
+label{
+    height: 100px;
+    width: 200px;
+    display: block;
+    position: relative;
+    background: #ebebeb;
+    border-radius: 200px;
+    cursor: pointer;
+    box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4), inset 0px -5px 15px rgba(255, 255, 255, 0.4);
+}
+label:after{
+    content: "";
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(180deg, #e8890d, #dea247);
+    border-radius: 180px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+label, label:after{
+    transition: 0.3s
+}
