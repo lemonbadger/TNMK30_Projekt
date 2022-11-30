@@ -16,10 +16,17 @@
         <input type="checkbox" id="darkmode_toggle">
         <label for="darkmode_toggle"><p id="NightMode">Night Mode</p></label>
     </div>
-    <div class="Searchbar">
-        <input type="text" placeholder="Search...">
-    </div>
-    <h1>BrickBase</h1>
-    <p>fkvmfovmdkfmvdkmfvkgmkdmvkdfmvkfmgm</p>
+   <h1>BrickBase</h1>
+    <p>Hej sök efter din bit!</p>
+
+<form class="searchbar" action="FilterSearch.php">
+	<input name="filter" type="text">
+	<input type="submit">
+</form>
+
+<?php
+ $filter = $_GET['filter'];
+ 
+?>
 </body>
 </html>
