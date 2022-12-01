@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="sv">
 
@@ -25,43 +26,16 @@
   
     <h1>BrickBase</h1>
     <h2>Din sökning: </h2>
+	
 
 
 <?php
- /* Användning av sökningen in i variabel $firstsearch
- 
- $FirstSearch = $_GET['filter'];        //$firstsearch = $filter 
- 
- 	print("<h2>$FirstSearch</h2>\n");
-	
-	$connection	= mysqli_connect("mysql.itn.liu.se","lego","","lego");
-	$query = "SELECT * 
-	
-	FROM
-    inventory,
-    colors,
-    parts,
-    images
-    WHERE 
-    inventory.partID = %'$FirstSearch'%
-AND
-    inventory.ColorID = colors.ColorID
-AND
-    inventory.ItemID = parts.PartID
-AND
-    inventory.ItemTypeID = 'P'
-AND
-    inventory.ItemID = images.ItemID
-AND 
-	inventory.ColorID = images.ColorID";	
-
-	*/
-	
+	$FirstSearch = $_GET['filter']; 
+	print("<h3> $FirstSearch </h3>");
 	
 	//Allmän sökning från lab 5
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 		$query = "SELECT
-    inventory.Quantity,
     inventory.ColorID,
     colors.Colorname,
     parts.Partname,
@@ -75,7 +49,7 @@ FROM
     parts,
     images
 WHERE 
-    inventory.SetID ='375-2'
+    parts.Partname LIKE '%$FirstSearch%'
 AND
     inventory.ColorID = colors.ColorID
 AND
@@ -91,7 +65,13 @@ AND
 	//	Nu	har	vi	en	fråga	i	$query	som	vi	kan	skicka	till	MySQL!															
 		$result = mysqli_query($connection, $query);	
 		
-		while ($row = mysqli_fetch_array($result)){
+		
+		while($row = mysqli_fetch_array($result)){
+			
+		/*$bigarray[$row]; 
+		print_r(array_unique($bigarray));*/
+		
+			
 			$url = null; 
 			$url .= $row['ItemTypeID'];
 			$url .= "/";
@@ -112,6 +92,10 @@ AND
 			
 			$color=$row['Colorname']; 
 			$partname=$row['Partname']; 
+			$itemid=$row['ItemID'];
+			
+			
+		
 		
 			print("<tr>"); 
 			print("<td><h3>$url</h3></td>");
@@ -119,7 +103,7 @@ AND
 			print("<td><h3>$color</h3></td>");
 			print("<td><h3>$partname</h3></td>");
 			
-		print "</tr>\n";
+		print "</tr>\n"; 
 	}
 
   
@@ -136,3 +120,4 @@ AND
 	
 </body> 
 </html>	
+
