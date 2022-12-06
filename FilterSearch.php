@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="sv">
 
@@ -35,7 +34,7 @@
 	
 	//Allmän sökning från lab 5
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
-		$query = "SELECT
+		$query = "SELECT DISTINCT
     inventory.ColorID,
     colors.Colorname,
     parts.Partname,
@@ -87,23 +86,27 @@ AND
 				$hasimage = false; 
 			}
 			 
-			$imageUrl = "http://www.itn.liu.se/~stegu76/img.bricklink.com/";
-			$imageUrl .= $url; 
-			
-			$color=$row['Colorname']; 
-			$partname=$row['Partname']; 
-			$itemid=$row['ItemID'];
-			
-			
+				$imageUrl = "http://www.itn.liu.se/~stegu76/img.bricklink.com/";
+				$imageUrl .= $url; 
+				
+				$color=$row['Colorname']; 
+				$partname=$row['Partname']; 
+				$itemid=$row['ItemID'];
+	
+	  
 		
 		
-			print("<tr>"); 
-			print("<td><h3>$url</h3></td>");
-			print("<td><img src=$imageUrl /></td>");
-			print("<td><h3>$color</h3></td>");
-			print("<td><h3>$partname</h3></td>");
-			
-		print "</tr>\n"; 
+					print "</tr>\n"; 
+					
+					echo '<a href="SearchResult.php"><div>
+						<tr>
+						<td><h3>'.$url.'</h3></td>
+						<td><img src='.$imageUrl.' /></td>
+						<td><h3>'.$color.'</h3></td>
+						<td><h3>'.$partname.'</h3></td>
+					</div></a>';
+					
+					$array = array($partname, $color, $imageUrl, $url);
 	}
 
   
@@ -115,9 +118,8 @@ AND
 	
 ?>
 
-	
+
 
 	
 </body> 
 </html>	
-
