@@ -66,9 +66,6 @@ AND
 		
 		
 		while($row = mysqli_fetch_array($result)){
-			
-		/*$bigarray[$row]; 
-		print_r(array_unique($bigarray));*/
 		
 			
 			$url = null; 
@@ -100,20 +97,34 @@ AND
 					
 					echo '<a href="SearchResult.php"><div>
 						<tr>
-						<td><h3>'.$url.'</h3></td>
 						<td><img src='.$imageUrl.' /></td>
 						<td><h3>'.$color.'</h3></td>
 						<td><h3>'.$partname.'</h3></td>
 					</div></a>';
+			
 					
-					$array = array($partname, $color, $imageUrl, $url);
+				
+					
+					
+					
+					/*<form action="SearchResult.php" method="post">
+					<label for="my-field">Enter some text:</label><br>
+					<input type="text" id="my-field" name="my-field"><br>
+					<input type="submit" value="Submit">
+					</form>*/
 	}
 
   
  mysqli_close($connection);
 	
 	
-	
+	/*Frågelåda:
+	-Spara variabler för den man trycker på, skicka till SearchResult?
+	-Kolla query i SearchResult
+	-Ska vi ha div på printen eller något annat
+	-Bara en css fil eller flera
+	*/
+
 	
 	
 ?>
