@@ -5,6 +5,7 @@
 <meta charset= "utf-8">
 	<title> Hemsida </title> 
 	<link rel="stylesheet" href="NavigationMenu.css">
+	<script src="javascriptbrick.js" defer></script>
 </head>
 
 <body>
@@ -59,8 +60,8 @@ AND
     inventory.ItemID = images.ItemID
 AND 
 	inventory.ColorID = images.ColorID";	
-		
 	
+					
 	//	Nu	har	vi	en	fråga	i	$query	som	vi	kan	skicka	till	MySQL!															
 		$result = mysqli_query($connection, $query);	
 		
@@ -95,23 +96,18 @@ AND
 		
 					print "</tr>\n"; 
 					
-					echo '<a href="SearchResult.php"><div>
+					echo '<a href="SearchResult.php"><div onclick="ClickFunction($partname, $color)">
 						<tr>
 						<td><img src='.$imageUrl.' /></td>
 						<td><h3>'.$color.'</h3></td>
 						<td><h3>'.$partname.'</h3></td>
 					</div></a>';
-			
-					
-				
-					
-					
-					
-					/*<form action="SearchResult.php" method="post">
-					<label for="my-field">Enter some text:</label><br>
-					<input type="text" id="my-field" name="my-field"><br>
-					<input type="submit" value="Submit">
-					</form>*/
+	
+	
+	 session_start();
+			        $_SESSION["partname"] = "$partname";
+					$_SESSION["color"] = "$color";
+		
 	}
 
   
@@ -119,10 +115,12 @@ AND
 	
 	
 	/*Frågelåda:
-	-Spara variabler för den man trycker på, skicka till SearchResult?
+	-Spara variabler för den man trycker på, skicka till SearchResult? ish fixat med session!
 	-Kolla query i SearchResult
 	-Ska vi ha div på printen eller något annat
 	-Bara en css fil eller flera
+	-varför laddar filtersearch så länge???
+	-kan man connecta utan post oh form?
 	*/
 
 	
