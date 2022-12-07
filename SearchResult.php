@@ -23,10 +23,29 @@
         <label for="darkmode_toggle"><p id="NightMode">Night Mode</p></label>
     </div>
   
+  
+ 
+  
     <h1>BrickBase</h1>
-    <h2>Din sökning: </h2>
+
+    <h2>Din bit ingår i: </h2>
+	
+	
+	
+	
 	
 <?php
+
+//hämta variabler från Filtersearch
+ session_start();
+  $SelectedName = $_SESSION["partname"];
+  echo "Name: " . $SelectedName;
+  
+  $SelectedColor = $_SESSION["color"];
+  echo "Color: " . $SelectedColor;
+  
+  
+
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 		$query = "SELECT DISTINCT
     inventory.ColorID,
@@ -37,6 +56,7 @@
     images.has_gif,
     images.has_jpg,
 	sets.SetID
+	sets.Setname
 FROM
     inventory,
     colors,
@@ -44,7 +64,7 @@ FROM
     images,
 	sets
 WHERE 
-    parts.Partname = 'Brick 2 x 3 without Cross Supports'
+    parts.Partname = '$SelectedName'
 AND
     inventory.ColorID = colors.ColorID
 AND
@@ -53,12 +73,14 @@ AND
     sets.SetID = inventory.ItemID
 AND
     inventory.ItemTypeID = 'S'
+AND 
+    inventory.ItemTypeID = 'P'
 AND
     inventory.ItemID = images.ItemID
 AND 
 	inventory.ColorID = images.ColorID
 AND 
-    colors.Colorname = 'Yellow'";	
+    colors.Colorname = '$SelectedColor'";	
 		
 	
 	//	Nu	har	vi	en	fråga	i	$query	som	vi	kan	skicka	till	MySQL!															
@@ -81,10 +103,17 @@ AND
 				$imageUrl = "http://www.itn.liu.se/~stegu76/img.bricklink.com/";
 				$imageUrl .= $url; 
 				
-				$set=$row['SetID'];
-					print "<h3>$set</h3>"; 
+				
+				
+				$Setname=$row['Setname']; 
+				$SetID=$row['SetID'];
+				
+					print ("<h3>$Setname</h3>"); 
 		}
 		 mysqli_close($connection);
+		 
+		 
+		 
 	
 ?>
 		
