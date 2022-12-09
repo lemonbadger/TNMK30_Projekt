@@ -54,4 +54,7 @@ ul {
   li a:hover {
     background-color: #111;
   }
-  
+.darkmode {
+    background-color: #111;
+    color: aliceblue;
+}
