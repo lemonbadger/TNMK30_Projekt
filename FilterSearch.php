@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="sv">
 
@@ -10,7 +11,7 @@
 
 <body>
 
-
+ 
 
 <title>BrickBase</title>
 </head>
@@ -39,6 +40,7 @@
     inventory.ColorID,
     colors.Colorname,
     parts.Partname,
+	parts.PartID,
     inventory.ItemID,
     inventory.ItemTypeID,
     images.has_gif,
@@ -59,7 +61,10 @@ AND
 AND
     inventory.ItemID = images.ItemID
 AND 
-	inventory.ColorID = images.ColorID";	
+	inventory.ColorID = images.ColorID
+	
+LIMIT 2";	
+
 	
 					
 	//	Nu	har	vi	en	fråga	i	$query	som	vi	kan	skicka	till	MySQL!															
@@ -90,23 +95,24 @@ AND
 				$color=$row['Colorname']; 
 				$partname=$row['Partname']; 
 				$itemid=$row['ItemID'];
+				$partid=$row['PartID'];
+				$colorid=$row['ColorID'];
 	
 	  
 		
 		
 					print "</tr>\n"; 
 					
-					echo '<a href="SearchResult.php"><div onclick="ClickFunction($partname, $color)">
+					echo '<a href="SearchResult.php?data1='.$partname.'&data2='.$color.'&data3='.$imageUrl.'&data4='.$partid.'&data5='.$colorid.'" ><div>
 						<tr>
 						<td><img src='.$imageUrl.' /></td>
 						<td><h3>'.$color.'</h3></td>
 						<td><h3>'.$partname.'</h3></td>
+						</tr>
 					</div></a>';
 	
 	
-	 session_start();
-			        $_SESSION["partname"] = "$partname";
-					$_SESSION["color"] = "$color";
+	
 		
 	}
 
@@ -115,7 +121,6 @@ AND
 	
 	
 	/*Frågelåda:
-	-Spara variabler för den man trycker på, skicka till SearchResult? ish fixat med session!
 	-Kolla query i SearchResult
 	-Ska vi ha div på printen eller något annat
 	-Bara en css fil eller flera
