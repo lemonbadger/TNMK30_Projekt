@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="sv">
 
@@ -36,18 +37,28 @@
 	
 <?php
 
-//hämta variabler från Filtersearch
- session_start();
-  $SelectedName = $_SESSION["partname"];
-  echo "Name: " . $SelectedName;
-  
-  $SelectedColor = $_SESSION["color"];
-  echo "Color: " . $SelectedColor;
-  
-  
+
+  //Hämta från get
+  		if(isset($_GET["data1"]) && isset($_GET["data2"])&& isset($_GET["data3"])&& isset($_GET["data4"])&& isset($_GET["data5"]))
+    {
+        $SelectedName = $_GET["data1"];
+        $SelectedColor = $_GET["data2"];
+		$SelectedImage = $_GET["data3"];
+		$SelectedPartID = $_GET["data4"];
+		$SelectedColorID = $_GET["data5"];
+    }
+	
+	
+	 echo "Name: " . $SelectedName;
+	 echo "Color: " . $SelectedColor;
+	 echo '<img src= '.$SelectedImage.' />';
+	 echo "ID: " . $SelectedPartID;
+	
 
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
-		$query = "SELECT DISTINCT
+	
+	/* Gammal query
+		$query = "SELECT
     inventory.ColorID,
     colors.Colorname,
     parts.Partname,
@@ -55,7 +66,7 @@
     inventory.ItemTypeID,
     images.has_gif,
     images.has_jpg,
-	sets.SetID
+	sets.SetID,
 	sets.Setname
 FROM
     inventory,
@@ -70,45 +81,78 @@ AND
 AND
     inventory.ItemID = parts.PartID
 AND
-    sets.SetID = inventory.ItemID
+    inventory.ItemID = sets.SetID
 AND
     inventory.ItemTypeID = 'S'
-AND 
-    inventory.ItemTypeID = 'P'
 AND
     inventory.ItemID = images.ItemID
 AND 
 	inventory.ColorID = images.ColorID
 AND 
-    colors.Colorname = '$SelectedColor'";	
-		
+    colors.Colorname = '$SelectedColor'
 	
-	//	Nu	har	vi	en	fråga	i	$query	som	vi	kan	skicka	till	MySQL!															
+AND parts.PartID = '$SelectedPartID'
+
+AND inventory.ItemID = sets.SetID";
+*/		
+	
+
+
+	//Ny query
+	$query	= "SELECT
+inventory.SetID,
+    inventory.ColorID,
+    inventory.ItemID,
+    inventory.ItemTypeID,
+sets.Setname
+
+FROM
+    inventory,
+sets
+WHERE 
+    inventory.ItemID = '$SelectedPartID'
+AND
+inventory.ColorID = '$SelectedColorID'
+AND
+inventory.SetID = sets.SetID";
+
+//<img src='$prefix/SL/$setID.jpg'>
+		
+		echo '<h3>Hej</h3>'; 
+	
+	
+		//	Till setten																
 		$result = mysqli_query($connection, $query);	
 		
 		while($row = mysqli_fetch_array($result)){
-		
 			
-			$url = null; 
-			$url .= $row['SetID'];
-			$hasimage = true; 
-			if($row['has_gif'])
-				$url .= ".gif"; 
-			else if($row['has_jpg'])
-				$url .= ".jpg"; 
-			else{
-				$hasimage = false; 
-			}
-			 
-				$imageUrl = "http://www.itn.liu.se/~stegu76/img.bricklink.com/";
-				$imageUrl .= $url; 
+			
 				
-				
-				
-				$Setname=$row['Setname']; 
-				$SetID=$row['SetID'];
-				
-					print ("<h3>$Setname</h3>"); 
+				$url = null; 
+				$url .= $row['SetID'];
+				$hasimage = true; 
+				if($row['has_gif'])
+					$url .= ".gif"; 
+				else if($row['has_jpg'])
+					$url .= ".jpg"; 
+				else{
+					$hasimage = false; 
+				}
+				 
+					$SetImageUrl = "http://www.itn.liu.se/~stegu76/img.bricklink.com/SL/";
+					$SetImageUrl .= $url; 
+					
+					
+					
+					
+					
+					$Setname=$row['Setname']; 
+					$SetID=$row['SetID'];
+					
+					echo '<h3>'.$SetID.'</h3>'; 
+					echo '<h3>'.$Setname.'</h3>'; 
+					echo '<img src='.$setimageUrl.' />';
+						
 		}
 		 mysqli_close($connection);
 		 
