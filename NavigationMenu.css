@@ -119,3 +119,7 @@ h1{
     font-family: 'Luckiest Guy', cursive;
     font-size: 400%;
 }
+.darkmode {
+    background-color: #111;
+    color: aliceblue;
+}
