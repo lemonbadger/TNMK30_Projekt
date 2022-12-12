@@ -100,21 +100,28 @@ AND inventory.ItemID = sets.SetID";
 
 	//Ny query
 	$query	= "SELECT
-inventory.SetID,
+    inventory.SetID,
     inventory.ColorID,
     inventory.ItemID,
     inventory.ItemTypeID,
-sets.Setname
-
+    sets.Setname,
+	images.has_gif,
+	images.has_jpg
 FROM
     inventory,
-sets
+    sets,
+	images
 WHERE 
     inventory.ItemID = '$SelectedPartID'
 AND
 inventory.ColorID = '$SelectedColorID'
 AND
-inventory.SetID = sets.SetID";
+inventory.SetID = sets.SetID
+AND
+images.ItemID = sets.SetID";
+
+
+
 
 //<img src='$prefix/SL/$setID.jpg'>
 		
@@ -131,27 +138,35 @@ inventory.SetID = sets.SetID";
 				$url = null; 
 				$url .= $row['SetID'];
 				$hasimage = true; 
-				if($row['has_gif'])
-					$url .= ".gif"; 
-				else if($row['has_jpg'])
-					$url .= ".jpg"; 
+				if($row['has_gif']){
+				$url .= ".gif";} 
+				else if($row['has_jpg']){
+				$url .= ".jpg"; }
 				else{
 					$hasimage = false; 
 				}
 				 
-					$SetImageUrl = "http://www.itn.liu.se/~stegu76/img.bricklink.com/SL/";
+					$SetImageUrl = "http://www.itn.liu.se/~stegu76/img.bricklink.com/S/";
+					
+				
 					$SetImageUrl .= $url; 
 					
+					print ("$SetImageUrl");
 					
-					
+					/*echo '<h3>'.$SetID.'</h3>'; 
+					echo '<h3>'.$Setname.'</h3>'; 
+					echo '<img src='.$setimageUrl.' />';*/
 					
 					
 					$Setname=$row['Setname']; 
 					$SetID=$row['SetID'];
-					
-					echo '<h3>'.$SetID.'</h3>'; 
-					echo '<h3>'.$Setname.'</h3>'; 
-					echo '<img src='.$setimageUrl.' />';
+					echo '<div>
+						<tr>
+						<td><img src='.$SetImageUrl.' /></td>
+						<td><h3>'.$Setname.'</h3></td>
+						<td><h3>'.$SetID.'</h3></td>
+						</tr>
+					</div>';
 						
 		}
 		 mysqli_close($connection);
