@@ -6,9 +6,14 @@ function DarkMode(){
         body.classList.remove('dark');    //vid updatering av sida (hittat i ett forum)
         localStorage.setItem("theme","light");
         button.innerHTML="Turn on dark mode";
-    }else{
+  } else{
         body.classList.add('dark');
         localStorage.setItem("theme","dark");
         button.innerHTML="Turn off dark mode";
+    }
+
+    if(localStorage.getItem("theme")=== "dark"){
+        body.classList.add('dark');
+        button.innerHTML= "tTurn off dark mode";
     }
 }
