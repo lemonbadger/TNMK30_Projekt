@@ -7,14 +7,10 @@
 	<title> Hemsida </title> 
 	<link rel="stylesheet" href="NavigationMenu.css">
 	<script src="javascriptbrick.js" defer></script>
-</head>
-
-<body>
-
- 
-
 <title>BrickBase</title>
 </head>
+
+
 <body>
     <div class="navbar">
         <div class="image_placeholder"><h3>logo_placeholder</h3></div>
@@ -35,6 +31,55 @@
 	print("<h3> $FirstSearch </h3>");
 	echo strlen("$FirstSearch");
 	
+	//Rad till Query hämta colorname och jämföra
+	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
+	$queryc = "SELECT colors.Colorname FROM colors";
+	$resultc = mysqli_query($connection, $queryc);
+	while($row = mysqli_fetch_array($resultc)){
+		
+		$colorsearch=$row['Colorname']; 
+		
+		if (stripos($FirstSearch, $colorsearch) !== false) {
+		   $colormatch = $colorsearch;
+		   $querylinec = "AND colors.Colorname LIKE '%$colormatch%'";
+		    echo "$colormatch <br>"; 
+			echo "$querylinec <br>"; 
+			break;
+		}
+		else {
+			$querylinec = null; 
+		}
+	}
+	
+	//Rad till Query hämta partname och jämföra
+	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
+	$queryp = "SELECT parts.Partname FROM parts";
+	$resultp = mysqli_query($connection, $queryp);
+	//$querylinep = null; 
+	while($row = mysqli_fetch_array($resultp)){
+		
+		$partsearch=$row['Partname']; 
+		
+		if (stripos($FirstSearch, $partsearch) !== false) {
+		   $partmatch = $partsearch;
+		 
+		   //$querylinep = "parts.Partname LIKE '%$partmatch%'";
+		   echo "$partmatch <br>"; 
+		   echo "$partsearch <br>";
+		   echo "$querylinep <br>"; 
+		}
+		else {
+			$querylinep = null; 
+		}
+	} //while loop slut
+	
+	
+	//Utanför while loop för att den ska ta sista värdet/längsta/$partmatch
+	if ($querylinep !== false){
+	$querylinep = "parts.Partname LIKE '%$partmatch%'";	
+	}
+	
+	
 	//Allmän sökning från lab 5
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 		$query = "SELECT DISTINCT
@@ -52,7 +97,9 @@ FROM
     parts,
     images
 WHERE 
-    parts.Partname LIKE '%$FirstSearch%'
+$querylinep	
+$querylinec	
+
 AND
     inventory.ColorID = colors.ColorID
 AND
@@ -63,12 +110,10 @@ AND
     inventory.ItemID = images.ItemID
 AND 
 	inventory.ColorID = images.ColorID
-	
+ORDER BY CHAR_LENGTH(Partname) ASC
 LIMIT 50";
 
-     //AND ORDER BY CHAR_LENGTH(Partname)	
-
-	// OR color.colorname LIKE '%$Firstsearchcolor%'
+     //AND ORDER BY CHAR_LENGTH(Partname)
 					
 	//	Nu	har	vi	en	fråga	i	$query	som	vi	kan	skicka	till	MySQL!															
 		$result = mysqli_query($connection, $query);	
@@ -120,7 +165,9 @@ LIMIT 50";
 						</tr>
 					</div></a>';
 		
-		//Försök med array i array för att sortera efter length/antal characters
+		
+		
+		//Försök med array i array för att sortera efter length/antal characters detta ska troligen bort!!!!
 		$length = strlen("$partname");
 		
 		$Iteminfo[] = array(
@@ -156,6 +203,12 @@ LIMIT 50";
         //$Item_partname = $Iteminfo["Item"]["partname"];
 
  mysqli_close($connection);
+	
+	/*Att göra låda: 
+	-kolla sökningar ex brick. fixa så att mellanrum och ej mellanrum inte stör
+	-städa kod
+	-kommentera saker
+	-börja med css
 	
 	
 	/*Frågelåda:
