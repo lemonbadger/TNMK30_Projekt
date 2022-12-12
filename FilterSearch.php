@@ -33,6 +33,7 @@
 <?php
 	$FirstSearch = $_GET['filter']; 
 	print("<h3> $FirstSearch </h3>");
+	echo strlen("$FirstSearch");
 	
 	//Allmän sökning från lab 5
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
@@ -63,14 +64,17 @@ AND
 AND 
 	inventory.ColorID = images.ColorID
 	
-LIMIT 2";	
+LIMIT 50";
 
-	
+     //AND ORDER BY CHAR_LENGTH(Partname)	
+
+	// OR color.colorname LIKE '%$Firstsearchcolor%'
 					
 	//	Nu	har	vi	en	fråga	i	$query	som	vi	kan	skicka	till	MySQL!															
 		$result = mysqli_query($connection, $query);	
 		
-		
+		$Iteminfo = array();
+		$i = 0; 
 		while($row = mysqli_fetch_array($result)){
 		
 			
@@ -99,6 +103,11 @@ LIMIT 2";
 				$colorid=$row['ColorID'];
 	
 	  
+
+		
+	
+		
+		
 		
 		
 					print "</tr>\n"; 
@@ -110,13 +119,42 @@ LIMIT 2";
 						<td><h3>'.$partname.'</h3></td>
 						</tr>
 					</div></a>';
-	
-	
-	
 		
-	}
+		//Försök med array i array för att sortera efter length/antal characters
+		$length = strlen("$partname");
+		
+		$Iteminfo[] = array(
+        "$i" => array(
+		"length" => "$length",
+        "partname" => "$partname",
+		"colorname" => "$color",
+        "image" => "$imageUrl"
+        )
+      );
+	  
+	  $i++;
+		
+		} //while loop slut
+		
+		ksort($Iteminfo);
+		
+		foreach ($Iteminfo as $name => $info) {
+		 $length = $info["length"];
+         $partname = $info["partname"];
+         $color = $info["colorname"];
+	     $image = $info["image"];
+		 
+		 echo '<div> '.$partname.' </div>';
+        }
+		
+	  
+		
+		
+		
+		
+		//$Item_length = $Iteminfo["Item"]["length"];
+        //$Item_partname = $Iteminfo["Item"]["partname"];
 
-  
  mysqli_close($connection);
 	
 	
@@ -125,7 +163,6 @@ LIMIT 2";
 	-Ska vi ha div på printen eller något annat
 	-Bara en css fil eller flera
 	-varför laddar filtersearch så länge???
-	-kan man connecta utan post oh form?
 	*/
 
 	
