@@ -1,3 +1,0 @@
-function ClickFunction(a,b){
-	
-}
