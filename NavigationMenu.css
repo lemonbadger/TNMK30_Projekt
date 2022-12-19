@@ -56,11 +56,28 @@ a:active{
     font-family: 'Luckiest Guy', cursive;
     text-decoration: none;
 }
+.searchbar {
+	float: center; 
+	margin: auto; 
+	width: 100vw; 
+	display: flex; 
+	flex-wrap: nowrap; 
+	flex-direction: row; 
+	justify-content: center; 
+}
+
 input{
+    width: 300px;
+    height: 50px;
+    visibility: visible;
+}
+
+#darkmode_toggle{
     width: 0;
     height: 0;
     visibility: hidden;
 }
+
 input:checked + label{
     background: #5b5959;
 }
@@ -101,4 +118,12 @@ h1{
     justify-content: center;
     font-family: 'Luckiest Guy', cursive;
     font-size: 400%;
+}
+.ShortIntro{
+    display: flex;
+    justify-content: center;
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 150%;
+    margin-top: 10%;
+    margin-bottom: 2%;
 }
