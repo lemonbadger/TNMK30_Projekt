@@ -1,39 +1,23 @@
-
 <!doctype html>
-<html lang="sv">
-
+<html lang="en">
 <head>
 <meta charset= "utf-8">
 	<title> Hemsida </title> 
-	<link rel="stylesheet" href="NavigationMenu.css">
+	<link rel="stylesheet" href="BrickBase.css">
+	<script src="DarkMode.js"></script>
 <title>BrickBase</title>
 </head>
-
-
 <body>
     <div class="navbar">
         <div class="image_placeholder"><h3>logo_placeholder</h3></div>
-        <a href="Home.php">Home</a>
-        <a href="HowToSearch.php">How to search</a>
-        <a href="AboutUs.php">About us</a>
+        <a class="NavButton" href="BrickBase-home.php">Home</a>
+        <a class="NavButton" href="HowToSearch.php">How to search</a>
+        <a class="NavButton" href="AboutUs.php">About us</a>
         <input type="checkbox" id="darkmode_toggle">
-        <label for="darkmode_toggle"><p id="NightMode">Night Mode</p></label>
+        <label for="darkmode_toggle">Night Mode</label>
     </div>
-  
-  
- 
-  
     <h1>BrickBase</h1>
-
-    
-	
-	
-	
-	
-	
 <?php
-
-
   //Hämta från get
   		if(isset($_GET["data1"]) && isset($_GET["data2"])&& isset($_GET["data3"])&& isset($_GET["data4"])&& isset($_GET["data5"]))
     {
@@ -44,13 +28,12 @@
 		$SelectedColorID = $_GET["data5"];
     }
 	
+	echo '<h3>Your piece is in the following sets: </h3>';
+	echo "Name: " . $SelectedName;
+	echo "Color: " . $SelectedColor;
+	echo '<img src= '.$SelectedImage.' />';
+	echo "ID: " . $SelectedPartID;
 	
-	 echo "Name: " . $SelectedName;
-	 echo "Color: " . $SelectedColor;
-	 echo '<img src= '.$SelectedImage.' />';
-	 echo "ID: " . $SelectedPartID;
-	
-	echo '<h2>Din bit ingår i: </h2>';
 
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 	
@@ -75,15 +58,11 @@ inventory.SetID = sets.SetID
 AND
 images.ItemID = sets.SetID";
 
-
-	
 		//	Till setten																
 		$result = mysqli_query($connection, $query);	
-		
+
+		echo '<div class="container">';
 		while($row = mysqli_fetch_array($result)){
-			
-			
-				
 				$url = null; 
 				$url .= $row['SetID'];
 				$hasimage = true; 
@@ -101,22 +80,17 @@ images.ItemID = sets.SetID";
 					
 					$Setname=$row['Setname']; 
 					$SetID=$row['SetID'];
-					echo '<div>
+					echo '<a class="PieceButton">
+					<div>
 						<tr>
 						<td><h3>'.$Setname.'</h3></td>
 						<td><img src='.$SetImageUrl.' /></td>
-						
 						<td><h3>'.$SetID.'</h3></td>
 						</tr>
-					</div>';
-						
-		}
+					</div><a/>';
+				}
+			echo '</div>';
 		 mysqli_close($connection);
-		 
-		 
-		 
-	
 ?>
-		
 </body> 
 </html>	
