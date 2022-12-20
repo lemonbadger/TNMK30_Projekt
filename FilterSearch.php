@@ -1,44 +1,32 @@
-
 <!doctype html>
-<html lang="sv">
-
+<html lang="en">
 <head>
 <meta charset= "utf-8">
-	<title> Hemsida </title> 
-	<link rel="stylesheet" href="NavigationMenu.css">
+	<title>BrickBase</title> 
+	<link rel="stylesheet" href="BrickBase.css">
+	<script src="DarkMode.js"></script>
 <title>BrickBase</title>
 </head>
-
-
 <body>
     <div class="navbar">
         <div class="image_placeholder"><h3>logo_placeholder</h3></div>
-        <a href="Home.php">Home</a>
-        <a href="HowToSearch.php">How to search</a>
-        <a href="AboutUs.php">About us</a>
+        <a class="NavButton" href="BrickBase-home.php">Home</a>
+        <a class="NavButton" href="HowToSearch.php">How to search</a>
+        <a class="NavButton" href="AboutUs.php">About us</a>
         <input type="checkbox" id="darkmode_toggle">
-        <label for="darkmode_toggle"><p id="NightMode">Night Mode</p></label>
+        <label for="darkmode_toggle">Night Mode</label>
     </div>
-  
     <h1>BrickBase</h1>
-    <h2>Din sökning: </h2>
-	
-
-
 <?php
-	
 	//Laddar man om sidan "load more" hämta samma variabel med det man sökte på 
 	if(isset($_GET["search"]))
-    {$FirstSearch = $_GET["search"];
- 
+    {
+	$FirstSearch = $_GET["search"];
     }
 	else{
 	$FirstSearch = $_GET['filter']; 
 	}
-	
-	
-	print("<h3> $FirstSearch </h3>");
-	
+	print("<h3>Your Search: $FirstSearch </h3>");
 	
 	//Rad till Query för färg, hämta colorname och jämföra
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
@@ -77,7 +65,6 @@
         $database_words = explode(" ", $partsearch);
 		$common_words = array_intersect($search_words, $databse_words); //gör en array av alla common words
 		$common_words_string = implode(" ", $common_words); //Gör en string av vår common_words array*/
-		
 	
 		if (stripos($FirstSearch, $partsearch) !== false) {
 			   $partmatch = $partsearch; 
@@ -85,10 +72,7 @@
 		else{
 				$querylinep = null; 
 			}
-
 	} //while loop partname slut
-
-	
 //Utanför while loop för att den ska ta sista värdet/längsta/$partmatch
 	
 		if ($querylinep !== false){ //om den inte är null gör detta
@@ -101,20 +85,13 @@
 		else{
 				$querylinep = null; //om sökningen blir null, tom för partname
 			}
-			
 		echo "$querylinep <br>"; //ska bort senare men kan underlätta 
 		echo "$partsearch<br>"; //ska oxå bort senare
-
-
 //error message detta funkar ej men något liknande  
  /*if($querylinep == null AND $querylinec == null{
 	 echo "Opps something went wrong, try again!";
  }
  else{ //gör fortsätt med queryn, testa något sätt kanske detta funkar }*/
- 
- 
- 
- 
 				//Load more, limit
 				$limitnumber = 50; //konstant 
 				
@@ -127,11 +104,7 @@
 				$limitnumberupdate = $limitnumber; //innan man tryckt load more
 				}
 			echo "$limitnumberupdate"; //ska bort men visar limiten för sidan
-
-			//vid mån av tid, se till att load more knappen försvinner när det inte finns mer att visa
-				
-				
-				
+				//vid mån av tid, se till att load more knappen försvinner när det inte finns mer att visa
 			   //stora queryn 
 				$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 					$query = "SELECT DISTINCT
@@ -165,14 +138,10 @@
 				
 			ORDER BY CHAR_LENGTH(Partname) ASC, CHAR_LENGTH(Colorname) ASC
 
-			LIMIT $limitnumberupdate";
-
-																	
+			LIMIT $limitnumberupdate";		
 					$result = mysqli_query($connection, $query);	
-					
+					echo '<div class="container">';
 					while($row = mysqli_fetch_array($result)){
-					
-						
 						$url = null; 
 						$url .= $row['ItemTypeID'];
 						$url .= "/";
@@ -187,21 +156,17 @@
 						else{
 							$hasimage = false; 
 						}
-						 
 							$imageUrl = "http://www.itn.liu.se/~stegu76/img.bricklink.com/";
 							$imageUrl .= $url; 
-							
 							$color=$row['Colorname']; 
 							$partname=$row['Partname']; 
 							$itemid=$row['ItemID'];
 							$partid=$row['PartID'];
 							$colorid=$row['ColorID'];
-				
-				  
-								print "</tr>\n"; 
-								
+								print "</tr>\n";
 								//rutan/biten man klickar på skickar sin info till SearchResult med variabler
-								echo '<a href="SearchResult.php?data1='.$partname.'&data2='.$color.'&data3='.$imageUrl.'&data4='.$partid.'&data5='.$colorid.'" ><div>
+								echo '<a class="PieceButton" href="SearchResult.php?data1='.$partname.'&data2='.$color.'&data3='.$imageUrl.'&data4='.$partid.'&data5='.$colorid.'" >
+								<div>
 									<tr>
 									<td><img src='.$imageUrl.' /></td>
 									<td><h3>'.$color.'</h3></td>
@@ -209,18 +174,12 @@
 									</tr>
 								</div></a>';
 					} //while loop för stora queryn slut
-					
+					echo '</div>';
 					
 					//load more knappen, länk
 					echo '<a href="FilterSearch.php?update='.$limitnumberupdate.'&search='.$FirstSearch.'" ><div> <h3>Load more </h3> </div></a>'; 
 				
 			 mysqli_close($connection);
-				
-
-	
-	
-	
-	
 	/*Att göra låda: 
 	-kolla sökningar ex brick. fixa så att mellanrum och ej mellanrum inte stör
 	-städa kod
@@ -232,14 +191,7 @@
 	-Kolla query i SearchResult
 	-Bara en css fil eller flera
 	-varför laddar filtersearch så länge???
-	*/
-
-	
-	
+	*/	
 ?>
-
-
-
-	
 </body> 
 </html>	
