@@ -69,8 +69,7 @@ body{
     text-decoration: none;
 }
 /*Allt som ingår i sökfunktionen. dvs sökfält och knapp*/
-.SearchBox{
-	float: center; 
+.SearchBox{ 
 	margin: auto; 
 	width: 100vw; 
 	display: flex; 
