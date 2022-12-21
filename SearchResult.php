@@ -26,13 +26,16 @@
 		$SelectedPartID = $_GET["data4"];
 		$SelectedColorID = $_GET["data5"];
     }
-	
-	echo '<h3>Your piece is in the following sets: </h3>';
-	echo "Name: " . $SelectedName;
-	echo "Color: " . $SelectedColor;
+	echo '<div class="container">';
+	echo '<a class="PieceButton">';
+	echo '<h3>Your piece</h3>';
+	/*echo '<h3>'. $SelectedName. '</h3>';*/
+	/*echo "Color: " . $SelectedColor;*/
 	echo '<img src= '.$SelectedImage.' />';
-	echo "ID: " . $SelectedPartID;
-	
+	/*echo "ID: " . $SelectedPartID;*/
+	echo '<h3> is in the following sets: </h3>';
+	echo '<a/>';
+	echo '</div>';
 
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 	
@@ -79,7 +82,7 @@ LIMIT 50";
 					<div class="TextOverflow">
 						<tr>
 						<td><h3>'.$Setname.'</h3></td>
-						<td><img src='.$SetImageUrl.' /></td>
+						<td><img src='.$SetImageUrl.' alt="Missing Photo of Set"/></td>
 						<td><h3>'.$SetID.'</h3></td>
 						</tr>
 					</div><a/>';
