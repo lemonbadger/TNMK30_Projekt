@@ -21,7 +21,7 @@
 	//Laddar man om sidan "load more" hämta samma variabel med det man sökte på 
 	if(isset($_GET["search"]))
     {
-	$FirstSearch = $_GET["search"];
+	$FirstSearch = mysqli_real_escape_string($connection, $_GET["search"]);// mysqli_real_escape_string() För att skydda mot "injektion attack"
     }
 	else{
 	$FirstSearch = $_GET['filter']; 
@@ -172,7 +172,7 @@ LIMIT $limitnumberupdate";
 					echo '<a class="PieceButton" href="SearchResult.php?data1='.$partname.'&data2='.$color.'&data3='.$imageUrl.'&data4='.$itemid.'&data5='.$colorid.'" >
 					<div>
 						<tr>
-						<td><img src='.$imageUrl.' /></td>
+						<td><img src='.$imageUrl.' alt="Missing Image of Piece"/></td>
 						<td><h3>'.$color.'</h3></td>
 						<td><h3>'.$partname.'</h3></td>
 						</tr>
