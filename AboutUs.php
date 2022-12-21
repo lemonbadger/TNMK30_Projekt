@@ -8,7 +8,7 @@
         <script src="DarkMode.js"></script>
         <title>BrickBase</title>
     </head>
-    <body class="darkmode">
+    <body>
         <div class="navbar">
             <div class="image_placeholder"><h3>logo_placeholder</h3></div>
             <a class="NavButton" href="BrickBase-home.php">Home</a>
@@ -21,8 +21,8 @@
         <div class="columnleft">
         </div>
         <div class="columnright">
-        <h2>Who are we?</h2>
-        <p>We are four students from Linköping University, Sweden. We are all studying to 
+        <h3>Who are we?</h3>
+        <p class="ShortIntro">We are four students from Linköping University, Sweden. We are all studying to 
             get a degree of science in engineering and this site is one of our projects. 
             The purpose for us with this project is to learn how to develop a webpage and 
             adapt it for as many people as possible.
