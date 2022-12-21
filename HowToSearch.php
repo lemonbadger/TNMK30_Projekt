@@ -14,7 +14,7 @@
         <a class="NavButton" href="BrickBase-home.php">Home</a>
         <a class="NavButton" href="HowToSearch.php">How to search</a>
         <a class="NavButton" href="AboutUs.php">About us</a>
-        <input type="checkbox" id="darkmode_toggle"class = "darkmode" onclick="DarkMode()">
+        <input type="checkbox" id="darkmode_toggle" class="darkmode" onclick="DarkMode()">
         <label for="darkmode_toggle">Night Mode</label>
     </div>
     <h1>How To Search</h1>
