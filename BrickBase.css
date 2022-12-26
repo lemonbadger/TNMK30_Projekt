@@ -17,6 +17,26 @@ body{
 }
 /*CSS för menyn, start*/
 
+a{/*Byte av språk knapparna*/
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 2vw;
+  cursor: pointer;
+  text-align: center;
+  font-size: smaller;
+  font-family: 'Luckiest Guy', cursive;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: rgb(31, 40, 122);
+  border: none;
+  border-radius: 1vw;
+  box-shadow: 0 3px #999;
+}
+/*menat att göra knappen orange när den används*/
+a.active{
+    background: darkorange;
+}
 /*Placeholder för eventuell loga*/
 .image_placeholder{
     color: aliceblue;
@@ -47,6 +67,7 @@ body{
   padding: 15px 25px;
   font-size: 2vw;
   cursor: pointer;
+  margin-left: 0.1px;
   text-align: center;
   text-decoration: none;
   outline: none;
@@ -67,6 +88,10 @@ body{
     color: #ffffff;
     font-family: 'Luckiest Guy', cursive;
     text-decoration: none;
+}
+.content{
+    margin-top: 20px;
+    font-size: 18px;
 }
 /*Allt som ingår i sökfunktionen. dvs sökfält och knapp*/
 .SearchBox{
