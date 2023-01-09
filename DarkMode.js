@@ -1,24 +1,17 @@
 function DarkMode(){
     document.body.classList.toggle("darkmode");
+
+    var h1s = document.getElementsByTagName("h1");
+    for (var i = 0; i < h1s.length; i++)
+        h1s[i].classList.toggle("darkmode"); 
+
+    var h3s = document.getElementsByTagName("h3");
+    for (var i = 0; i < h3s.length; i++)
+        h3s[i].classList.toggle("darkmode"); 
     
-    document.h1.classList.toggle("darkmode"); //Funktion tagen från W3School
-   
+    var ps = document.getElementsByTagName("p");
+    for (var i = 0; i < ps.length; i++)
+        ps[i].classList.toggle("darkmode"); 
 
-
-
-    
-    /*if (body.classList.contains('dark')){ //lösnning till att behålla darkmode 
-        body.classList.remove('dark');    //vid updatering av sida (hittat i ett forum)
-        localStorage.setItem("theme","light");
-        button.innerHTML="Turn on dark mode";
-  } else{
-        body.classList.add('dark');
-        localStorage.setItem("theme","dark");
-        button.innerHTML="Turn off dark mode";
-    }
-
-    if(localStorage.getItem("theme")=== "dark"){
-        body.classList.add('dark');
-        button.innerHTML= "tTurn off dark mode";
-    }*/
+        //Funktion tagen från W3School
 }
