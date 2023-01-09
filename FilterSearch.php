@@ -19,6 +19,7 @@
     <h1>BrickBase</h1>
 <?php
 	//Laddar man om sidan "load more" hämta samma variabel med det man sökte på 
+	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 	if(isset($_GET["search"]))
     {
 	$FirstSearch = mysqli_real_escape_string($connection, $_GET["search"]);// mysqli_real_escape_string() För att skydda mot "injektion attack"
