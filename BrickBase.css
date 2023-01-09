@@ -1,12 +1,12 @@
 /*CSS För alla sidor i Brickbase-projektet*/
 
 /*Typsnitt som används för alla rubriker, knappar*/
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap');
 /*Typsnitt som används för bitar och set*/
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
 body{
-    background: linear-gradient(rgb(255, 255, 255), rgb(255, 211, 146));
+    background: linear-gradient(rgb(229, 241, 252), rgb(255, 194, 103));
     margin: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -20,7 +20,7 @@ body{
 /*Placeholder för eventuell loga*/
 .image_placeholder{
     color: aliceblue;
-    font-family: 'Luckiest Guy', cursive;
+    font-family: 'Fredoka', sans-serif;
     padding-left: 5px;
 }
 /*Banderollen överst på sidan för navigation mellan olika sidor*/
@@ -65,12 +65,11 @@ body{
 }
 .navbar .NavButton{
     color: #ffffff;
-    font-family: 'Luckiest Guy', cursive;
+    font-family: 'Fredoka', sans-serif;
     text-decoration: none;
 }
 /*Allt som ingår i sökfunktionen. dvs sökfält och knapp*/
-.SearchBox{
-	float: center; 
+.SearchBox{ 
 	margin: auto; 
 	width: 100vw; 
 	display: flex; 
@@ -82,7 +81,7 @@ body{
 width: 40vw;
 height: 4vw;
 font-size: 2vw;
-font-family: 'Luckiest Guy', cursive;
+font-family: 'Fredoka', sans-serif;
 margin-right: 5px;
 }
 /*Submitknapp*/
@@ -125,7 +124,7 @@ label{
     box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4), inset 0px -5px 15px rgba(255, 255, 255, 0.4);
     margin-right: 25px;
     color: darkorange;
-    font-family: 'Luckiest Guy', cursive;
+    font-family: 'Fredoka', sans-serif;
     display: flex;
     padding-top: 26px;
     justify-content: right;
@@ -149,7 +148,7 @@ label, label:after{
 .ShortIntro{
     display: flex;
     justify-content: center;
-    font-family: 'Luckiest Guy', cursive;
+    font-family: 'Fredoka', sans-serif;
     font-size: 150%;
     margin-top: 10%;
     margin-bottom: 2%;
@@ -171,7 +170,7 @@ label, label:after{
 h1{
     display: flex;
     justify-content: center;
-    font-family: 'Luckiest Guy', cursive;             
+    font-family: 'Fredoka', sans-serif;             
     margin: 5% 20% 0; 
     color: rgb(3, 3, 95);
     font-size: 4vw;
@@ -195,9 +194,8 @@ h1{
     min-height: 12vw;
     min-width: 15vw;
     margin: 0.5vw 0.5vw 0.5vw 0.5vw;
-    text-overflow: ellipsis;
-    font-family: 'Staatliches', cursive;
-    word-wrap: inherit;
+    overflow: auto;
+    word-wrap: break-word;
 }
 .PieceButton:hover{
     background-color: rgb(212, 218, 230);
@@ -208,7 +206,7 @@ h1{
 }
 .navbar .PieceButton{
     color: #ffffff;
-    font-family: 'Luckiest Guy', cursive;
+    font-family: 'Fredoka', sans-serif;
     text-decoration: none;
 }
 .container{
@@ -220,18 +218,37 @@ h1{
 }
 /*Slut*/
 h2{
-    font-family: 'Luckiest Guy', cursive;
+    font-family: 'Fredoka', sans-serif;
 }
 h3{
-    font-family: 'Luckiest Guy', cursive;
+    font-family: 'Staatliches', cursive;
     color: rgb(3, 3, 95);
     display: flex;
     justify-content: center;
     font-size: 2vw;
+    word-wrap: break-word;
+    overflow: auto;
 }
 .darkmode{
-    background: linear-gradient(rgb(3, 3, 95), rgb(241, 145, 0));
+    background: linear-gradient(rgb(3, 3, 95), rgb(0, 0, 0));
     background-repeat: no-repeat;
     background-attachment: fixed;
-    color: rgb(241, 145, 0);
+}
+
+.darkmode h1{
+    color: rgb(255, 255, 255);
+}
+.darkmode p{
+    color: rgb(255, 255, 255);
+}
+.darkmode h3{
+    color: rgb(255, 255, 255);
+}
+.TextOverflow{
+    word-wrap: break-word;
+    overflow: auto
+}
+.darkmode #SubmitButton{
+    background-color: #ebebeb;
+    color: rgb(3, 3, 95);
 }
