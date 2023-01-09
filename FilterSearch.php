@@ -13,7 +13,7 @@
         <a class="NavButton" href="BrickBase-home.php">Home</a>
         <a class="NavButton" href="HowToSearch.php">How to search</a>
         <a class="NavButton" href="AboutUs.php">About us</a>
-        <input type="checkbox" id="darkmode_toggle">
+        <input type="checkbox" id="darkmode_toggle" class="darkmode" onclick="DarkMode()">
         <label for="darkmode_toggle">Night Mode</label>
     </div>
     <h1>BrickBase</h1>
@@ -21,7 +21,7 @@
 	//Laddar man om sidan "load more" hämta samma variabel med det man sökte på 
 	if(isset($_GET["search"]))
     {
-	$FirstSearch = $_GET["search"];
+	$FirstSearch = mysqli_real_escape_string($connection, $_GET["search"]);// mysqli_real_escape_string() För att skydda mot "injektion attack"
     }
 	else{
 	$FirstSearch = $_GET['filter']; 
@@ -46,7 +46,6 @@
 	
 	if($querylinec !== false){ //om det finns något ord som matchar exakt 
 		 $querylinec = "AND colors.Colorname LIKE '%$colormatch%'"; //detta skrivs in i stora queryn 
-		 echo "$querylinec <br>"; //detta ska bort men just nu hjälp för oss för att se
 	}
 	
 
@@ -74,110 +73,115 @@
 			}
 	} //while loop partname slut
 //Utanför while loop för att den ska ta sista värdet/längsta/$partmatch
-	
-		if ($querylinep !== false){ //om den inte är null gör detta
-		$querylinep = "parts.Partname LIKE '%$partmatch%'";	
+
+
+
+
+	if ($querylinep !== false){ //om den inte är null gör detta
+	$querylinep = "parts.Partname LIKE '%$partmatch%'";	
+	}
+	/* MEN DETTA FUNKAR INTE ISÅFALL MÅSTE VARA EXAKTA SÖKNINGAR
+	else if(isset($common_words_string)){	//om det över ej funkar testa matchande ord, det som kom från arrayen 
+		$querylinep = "parts.partname LIKE '%$common_words_string%'";
+	}*/
+	else{
+			$querylinep = null; //om sökningen blir null, tom för partname
 		}
-		/* MEN DETTA FUNKAR INTE ISÅFALL MÅSTE VARA EXAKTA SÖKNINGAR
-		else if(isset($common_words_string)){	//om det över ej funkar testa matchande ord, det som kom från arrayen 
-			$querylinep = "parts.partname LIKE '%$common_words_string%'";
-		}*/
-		else{
-				$querylinep = null; //om sökningen blir null, tom för partname
-			}
-		echo "$querylinep <br>"; //ska bort senare men kan underlätta 
-		echo "$partsearch<br>"; //ska oxå bort senare
 //error message detta funkar ej men något liknande  
  /*if($querylinep == null AND $querylinec == null{
 	 echo "Opps something went wrong, try again!";
  }
  else{ //gör fortsätt med queryn, testa något sätt kanske detta funkar }*/
-				//Load more, limit
-				$limitnumber = 50; //konstant 
-				
-				if(isset($_GET["update"])) //hämta från url
-				{$update = $_GET["update"];
-				 
-				 $limitnumberupdate = $limitnumber + $update; //update är värdet på limitupdate innan load more
-				}
-				else{
-				$limitnumberupdate = $limitnumber; //innan man tryckt load more
-				}
-			echo "$limitnumberupdate"; //ska bort men visar limiten för sidan
-				//vid mån av tid, se till att load more knappen försvinner när det inte finns mer att visa
-			   //stora queryn 
-				$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
-					$query = "SELECT DISTINCT
-				inventory.ColorID,
-				colors.Colorname,
-				parts.Partname,
-				parts.PartID,
-				inventory.ItemID,
-				inventory.ItemTypeID,
-				images.has_gif,
-				images.has_jpg
-			FROM
-				inventory,
-				colors,
-				parts,
-				images
-			WHERE 
-			$querylinep
-			$querylinec	
+ 
+	$pieces = explode(",", 	$FirstSearch);
+	//Load more, limit
+	$limitnumber = 50; //konstant 
+	
+	if(isset($_GET["update"])) //hämta från url
+	{$update = $_GET["update"];
+		
+		$limitnumberupdate = $limitnumber + $update; //update är värdet på limitupdate innan load more
+	}
+	else{
+	$limitnumberupdate = $limitnumber; //innan man tryckt load more
+	}
+	//vid mån av tid, se till att load more knappen försvinner när det inte finns mer att visa
+	//stora queryn 
+	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
+		$query = "SELECT DISTINCT
+	MAX(images.ColorID) AS 'ColorID',
+	colors.Colorname,
+	parts.Partname,
+	images.ItemID,
+	images.ItemTypeID,
+	images.has_gif,
+	images.has_jpg
+FROM
+	colors,
+	parts,
+	images
+WHERE 
+	((parts.Partname LIKE '%$pieces[0]%'
+AND 
+	colors.Colorname LIKE '%$pieces[1]%')
+OR 
+	(parts.Partname LIKE '%$pieces[1]%'
+AND 
+	colors.Colorname LIKE '%$pieces[0]%'))
+AND
+	images.ItemID = parts.PartID
+AND
+	images.ItemTypeID = 'P'
+AND
+	images.ColorID = colors.ColorID
+GROUP BY
+	colors.Colorname,
+	parts.Partname,
+	images.ItemID,
+	images.ItemTypeID,
+	images.has_gif,
+	images.has_jpg
+ORDER BY CHAR_LENGTH(Partname) ASC, CHAR_LENGTH(Colorname) ASC
 
-			AND
-				inventory.ColorID = colors.ColorID
-			AND
-				inventory.ItemID = parts.PartID
-			AND
-				inventory.ItemTypeID = 'P'
-			AND
-				inventory.ItemID = images.ItemID
-			AND 
-				inventory.ColorID = images.ColorID
-				
-			ORDER BY CHAR_LENGTH(Partname) ASC, CHAR_LENGTH(Colorname) ASC
-
-			LIMIT $limitnumberupdate";		
-					$result = mysqli_query($connection, $query);	
-					echo '<div class="container">';
-					while($row = mysqli_fetch_array($result)){
-						$url = null; 
-						$url .= $row['ItemTypeID'];
-						$url .= "/";
-						$url .= $row['ColorID'];
-						$url .= "/";
-						$url .= $row['ItemID'];
-						$hasimage = true; 
-						if($row['has_gif'])
-							$url .= ".gif"; 
-						else if($row['has_jpg'])
-							$url .= ".jpg"; 
-						else{
-							$hasimage = false; 
-						}
-							$imageUrl = "http://www.itn.liu.se/~stegu76/img.bricklink.com/";
-							$imageUrl .= $url; 
-							$color=$row['Colorname']; 
-							$partname=$row['Partname']; 
-							$itemid=$row['ItemID'];
-							$partid=$row['PartID'];
-							$colorid=$row['ColorID'];
-								print "</tr>\n";
-								//rutan/biten man klickar på skickar sin info till SearchResult med variabler
-								echo '<a class="PieceButton" href="SearchResult.php?data1='.$partname.'&data2='.$color.'&data3='.$imageUrl.'&data4='.$partid.'&data5='.$colorid.'" >
-								<div>
-									<tr>
-									<td><img src='.$imageUrl.' /></td>
-									<td><h3>'.$color.'</h3></td>
-									<td><h3>'.$partname.'</h3></td>
-									</tr>
-								</div></a>';
-					} //while loop för stora queryn slut
-					echo '</div>';
-					
-					//load more knappen, länk
-					echo '<a href="FilterSearch.php?update='.$limitnumberupdate.'&search='.$FirstSearch.'" ><div> <h3>Load more </h3> </div></a>'; 
+LIMIT $limitnumberupdate";		
+		$result = mysqli_query($connection, $query);	
+		echo '<div class="container">';
+		while($row = mysqli_fetch_array($result)){
+			$url = null; 
+			$url .= $row['ItemTypeID'];
+			$url .= "/";
+			$url .= $row['ColorID'];
+			$url .= "/";
+			$url .= $row['ItemID'];
+			$hasimage = true; 
+			if($row['has_gif'])
+				$url .= ".gif"; 
+			else if($row['has_jpg'])
+				$url .= ".jpg"; 
+			else{
+				$hasimage = false; 
+			}
+				$imageUrl = "http://www.itn.liu.se/~stegu76/img.bricklink.com/";
+				$imageUrl .= $url; 
+				$color=$row['Colorname']; 
+				$partname=$row['Partname']; 
+				$itemid=$row['ItemID'];
+				$colorid=$row['ColorID'];
+					print "</tr>\n";
+					//rutan/biten man klickar på skickar sin info till SearchResult med variabler
+					echo '<a class="PieceButton" href="SearchResult.php?data1='.$partname.'&data2='.$color.'&data3='.$imageUrl.'&data4='.$itemid.'&data5='.$colorid.'" >
+					<div>
+						<tr>
+						<td><img src='.$imageUrl.' alt="Missing Image of Piece"/></td>
+						<td><h3>'.$color.'</h3></td>
+						<td><h3>'.$partname.'</h3></td>
+						</tr>
+					</div></a>';
+		} //while loop för stora queryn slut
+		echo '</div>';
+		
+		//load more knappen, länk
+		echo '<a href="FilterSearch.php?update='.$limitnumberupdate.'&search='.$FirstSearch.'" ><div> <h3>Load more </h3> </div></a>'; 
 				
 			 mysqli_close($connection);
 	/*Att göra låda: 
