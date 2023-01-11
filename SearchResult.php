@@ -17,7 +17,7 @@
     </div>
     <h1>BrickBase</h1>
 <?php
-  //Hämta från get
+  //Hämta variabler från URL med get
   		if(isset($_GET["data1"]) && isset($_GET["data2"])&& isset($_GET["data3"])&& isset($_GET["data4"])&& isset($_GET["data5"]))
     {
         $SelectedName = $_GET["data1"];
@@ -26,19 +26,10 @@
 		$SelectedPartID = $_GET["data4"];
 		$SelectedColorID = $_GET["data5"];
     }
-	echo '<div class="container">';
-	echo '<a class="PieceButton">';
-	echo '<h3>Your piece</h3>';
-	/*echo '<h3>'. $SelectedName. '</h3>';*/
-	/*echo "Color: " . $SelectedColor;*/
-	echo '<img src= '.$SelectedImage.' />';
-	/*echo "ID: " . $SelectedPartID;*/
-	echo '<h3> is in the following sets: </h3>';
-	echo '<a/>';
-	echo '</div>';
+	
+	echo '<div class="container"><a class="PieceButton"><h3>Your piece</h3><img src= '.$SelectedImage.' /><h3> is in the following sets: </h3><a/></div>';
 
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
-	
 	$query	= "SELECT
     inventory.SetID,
     sets.Setname,
@@ -56,7 +47,7 @@ AND
 	images.ItemID = sets.SetID
 LIMIT 50";
 
-		//	Till setten																
+		//Skriv ut alla set															
 		$result = mysqli_query($connection, $query);	
 
 		echo '<div class="container">';
