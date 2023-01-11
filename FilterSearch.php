@@ -18,96 +18,32 @@
     </div>
     <h1>BrickBase</h1>
 <?php
-	//Laddar man om sidan "load more" hämta samma variabel med det man sökte på 
+	//Laddar man om sidan "load more" hämta variabel med det man sökte på 
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 	if(isset($_GET["search"]))
     {
 	$FirstSearch = mysqli_real_escape_string($connection, $_GET["search"]);// mysqli_real_escape_string() För att skydda mot "injektion attack"
     }
 	else{
-	$FirstSearch = $_GET['filter']; 
+	$FirstSearch = $_GET['filter']; //hämta från formulär/sökfält
 	}
 	print("<h3>Your Search: $FirstSearch </h3>");
 	
-	//Rad till Query för färg, hämta colorname och jämföra
-	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
-	$queryc = "SELECT colors.Colorname FROM colors"; //query för color= queryc
-	$resultc = mysqli_query($connection, $queryc); //result för color
-	while($row = mysqli_fetch_array($resultc)){
-		
-		$colorsearch=$row['Colorname']; //variabel med colorname från databasen 
-		
-		if (stripos($FirstSearch, $colorsearch) !== false) { //jämfär string mellan det man sökta och databasen
-		   $colormatch = $colorsearch; //returnar det som matchade, aka exakta colornamet för matchning	
-		}
-		else {
-			$querylinec = null; //om det inte matchade,aka ingen färg i sökningen
-		}
-	} //while loop färg slut
 	
-	if($querylinec !== false){ //om det finns något ord som matchar exakt 
-		 $querylinec = "AND colors.Colorname LIKE '%$colormatch%'"; //detta skrivs in i stora queryn 
-	}
-	
-
-	//Rad till Query hämta partname och jämföra
-	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
-	$queryp = "SELECT parts.Partname FROM parts";//query för partname= queryp
-	$resultp = mysqli_query($connection, $queryp); //result för partname
- 
-	$common_words_string = null; 
-	while($row = mysqli_fetch_array($resultp)){
-		
-		$partsearch=$row['Partname'];
-
-        /*till else if utanför while loopen MEN DETTA FUNKAR KANSKE INTE
-     	$search_words = explode(" ", $FirstSearch); //firstsearch ord blir en array
-        $database_words = explode(" ", $partsearch);
-		$common_words = array_intersect($search_words, $databse_words); //gör en array av alla common words
-		$common_words_string = implode(" ", $common_words); //Gör en string av vår common_words array*/
-	
-		if (stripos($FirstSearch, $partsearch) !== false) {
-			   $partmatch = $partsearch; 
-		    }
-		else{
-				$querylinep = null; 
-			}
-	} //while loop partname slut
-//Utanför while loop för att den ska ta sista värdet/längsta/$partmatch
-
-
-
-
-	if ($querylinep !== false){ //om den inte är null gör detta
-	$querylinep = "parts.Partname LIKE '%$partmatch%'";	
-	}
-	/* MEN DETTA FUNKAR INTE ISÅFALL MÅSTE VARA EXAKTA SÖKNINGAR
-	else if(isset($common_words_string)){	//om det över ej funkar testa matchande ord, det som kom från arrayen 
-		$querylinep = "parts.partname LIKE '%$common_words_string%'";
-	}*/
-	else{
-			$querylinep = null; //om sökningen blir null, tom för partname
-		}
-//error message detta funkar ej men något liknande  
- /*if($querylinep == null AND $querylinec == null{
-	 echo "Opps something went wrong, try again!";
- }
- else{ //gör fortsätt med queryn, testa något sätt kanske detta funkar }*/
- 
-	$pieces = explode(",", 	$FirstSearch);
-	//Load more, limit
+	//Load more, uppdatera limit
 	$limitnumber = 50; //konstant 
 	
 	if(isset($_GET["update"])) //hämta från url
 	{$update = $_GET["update"];
 		
-		$limitnumberupdate = $limitnumber + $update; //update är värdet på limitupdate innan load more
+	$limitnumberupdate = $limitnumber + $update; //update är värdet på limitupdate innan load more
 	}
 	else{
 	$limitnumberupdate = $limitnumber; //innan man tryckt load more
 	}
-	//vid mån av tid, se till att load more knappen försvinner när det inte finns mer att visa
-	//stora queryn 
+
+	$pieces = explode(",", 	$FirstSearch);
+	
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 		$query = "SELECT DISTINCT
 	MAX(images.ColorID) AS 'ColorID',
@@ -144,9 +80,13 @@ GROUP BY
 	images.has_jpg
 ORDER BY CHAR_LENGTH(Partname) ASC, CHAR_LENGTH(Colorname) ASC
 
-LIMIT $limitnumberupdate";		
+LIMIT $limitnumberupdate";	
+
+
+	
 		$result = mysqli_query($connection, $query);	
 		echo '<div class="container">';
+		$counter = 0;
 		while($row = mysqli_fetch_array($result)){
 			$url = null; 
 			$url .= $row['ItemTypeID'];
@@ -168,35 +108,36 @@ LIMIT $limitnumberupdate";
 				$partname=$row['Partname']; 
 				$itemid=$row['ItemID'];
 				$colorid=$row['ColorID'];
-					print "</tr>\n";
-					//rutan/biten man klickar på skickar sin info till SearchResult med variabler
-					echo '<a class="PieceButton" href="SearchResult.php?data1='.$partname.'&data2='.$color.'&data3='.$imageUrl.'&data4='.$itemid.'&data5='.$colorid.'" >
-					<div>
-						<tr>
-						<td><img src='.$imageUrl.' alt="Missing Image of Piece"/></td>
-						<td><h3>'.$color.'</h3></td>
-						<td><h3>'.$partname.'</h3></td>
-						</tr>
-					</div></a>';
-		} //while loop för stora queryn slut
+				
+				
+	    //biten man klickar på skickar variabler till SearchResult (nästa sida) via URL:en
+		print "</tr>\n";
+		echo '<a class="PieceButton" href="SearchResult.php?data1='.$partname.'&data2='.$color.'&data3='.$imageUrl.'&data4='.$itemid.'&data5='.$colorid.'" >
+		<div>
+			<tr>
+			<td><img src='.$imageUrl.' alt="Missing Image of Piece"/></td>
+			<td><h3>'.$color.'</h3></td>
+			<td><h3>'.$partname.'</h3></td>
+			</tr>
+		</div></a>';
+		$counter++;
+		}
+		
+	    //felmeddelande
+		if($counter == 0){
+			echo'<p class="ShortIntro"> No result for "'.$FirstSearch.'". Please look at "how to search"! </p>'; 	
+		}
+			
+		//load more knapp
+		if($counter % 50 == 0 && $counter != 0 ){
+			echo '<a href="FilterSearch.php?update='.$limitnumberupdate.'&search='.$FirstSearch.'" ><div> <h3>Load more </h3> </div></a>'; 
+		}
+	
 		echo '</div>';
 		
-		//load more knappen, länk
-		echo '<a href="FilterSearch.php?update='.$limitnumberupdate.'&search='.$FirstSearch.'" ><div> <h3>Load more </h3> </div></a>'; 
-				
-			 mysqli_close($connection);
-	/*Att göra låda: 
-	-kolla sökningar ex brick. fixa så att mellanrum och ej mellanrum inte stör
-	-städa kod
-	-börja med css
-	-fixa att om både querylinep och querylinec är blit tom skriv ut felmedelande ex opps ngt gick fel och hänvisa till how to search
-	
-	
-	/*Frågelåda:
-	-Kolla query i SearchResult
-	-Bara en css fil eller flera
-	-varför laddar filtersearch så länge???
-	*/	
+		
+	mysqli_close($connection);
+
 ?>
 </body> 
 </html>	
