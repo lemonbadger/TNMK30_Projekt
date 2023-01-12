@@ -4,12 +4,18 @@
 <meta charset= "utf-8">
 	<title>BrickBase</title> 
 	<link rel="stylesheet" href="BrickBase.css">
-	<script src="DarkMode.js"></script>
+	<script src="Scripts.js"></script>
 <title>BrickBase</title>
 </head>
 <body>
     <div class="navbar">
-        <div class="image_placeholder"><h3>logo_placeholder</h3></div>
+	<div id="google_translate_element"></div>
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         <a class="NavButton" href="BrickBase-home.php">Home</a>
         <a class="NavButton" href="HowToSearch.php">How to search</a>
         <a class="NavButton" href="AboutUs.php">About us</a>
@@ -48,50 +54,6 @@
 		 $querylinec = "AND colors.Colorname LIKE '%$colormatch%'"; //detta skrivs in i stora queryn 
 	}
 	
-
-	//Rad till Query hämta partname och jämföra
-	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
-	$queryp = "SELECT parts.Partname FROM parts";//query för partname= queryp
-	$resultp = mysqli_query($connection, $queryp); //result för partname
- 
-	$common_words_string = null; 
-	while($row = mysqli_fetch_array($resultp)){
-		
-		$partsearch=$row['Partname'];
-
-        /*till else if utanför while loopen MEN DETTA FUNKAR KANSKE INTE
-     	$search_words = explode(" ", $FirstSearch); //firstsearch ord blir en array
-        $database_words = explode(" ", $partsearch);
-		$common_words = array_intersect($search_words, $databse_words); //gör en array av alla common words
-		$common_words_string = implode(" ", $common_words); //Gör en string av vår common_words array*/
-	
-		if (stripos($FirstSearch, $partsearch) !== false) {
-			   $partmatch = $partsearch; 
-		    }
-		else{
-				$querylinep = null; 
-			}
-	} //while loop partname slut
-//Utanför while loop för att den ska ta sista värdet/längsta/$partmatch
-
-
-
-
-	if ($querylinep !== false){ //om den inte är null gör detta
-	$querylinep = "parts.Partname LIKE '%$partmatch%'";	
-	}
-	/* MEN DETTA FUNKAR INTE ISÅFALL MÅSTE VARA EXAKTA SÖKNINGAR
-	else if(isset($common_words_string)){	//om det över ej funkar testa matchande ord, det som kom från arrayen 
-		$querylinep = "parts.partname LIKE '%$common_words_string%'";
-	}*/
-	else{
-			$querylinep = null; //om sökningen blir null, tom för partname
-		}
-//error message detta funkar ej men något liknande  
- /*if($querylinep == null AND $querylinec == null{
-	 echo "Opps something went wrong, try again!";
- }
- else{ //gör fortsätt med queryn, testa något sätt kanske detta funkar }*/
  
 	$pieces = explode(",", 	$FirstSearch);
 	//Load more, limit
@@ -127,6 +89,14 @@ AND
 OR 
 	(parts.Partname LIKE '%$pieces[1]%'
 AND 
+	colors.Colorname LIKE '%$pieces[0]%')
+OR
+	(parts.PartID LIKE '%$pieces[0]%'
+AND 
+	colors.Colorname LIKE '%$pieces[1]%')
+OR
+	(parts.PartID LIKE '%$pieces[1]%'
+AND
 	colors.Colorname LIKE '%$pieces[0]%'))
 AND
 	images.ItemID = parts.PartID
@@ -181,21 +151,10 @@ LIMIT $limitnumberupdate";
 		echo '</div>';
 		
 		//load more knappen, länk
-		echo '<a href="FilterSearch.php?update='.$limitnumberupdate.'&search='.$FirstSearch.'" ><div> <h3>Load more </h3> </div></a>'; 
-				
+		echo '<div class="LoadMoreButton">';
+		echo '<a href="FilterSearch.php?update='.$limitnumberupdate.'&search='.$FirstSearch.'" >Load More</a>'; 
+		echo '</div>';		
 			 mysqli_close($connection);
-	/*Att göra låda: 
-	-kolla sökningar ex brick. fixa så att mellanrum och ej mellanrum inte stör
-	-städa kod
-	-börja med css
-	-fixa att om både querylinep och querylinec är blit tom skriv ut felmedelande ex opps ngt gick fel och hänvisa till how to search
-	
-	
-	/*Frågelåda:
-	-Kolla query i SearchResult
-	-Bara en css fil eller flera
-	-varför laddar filtersearch så länge???
-	*/	
 ?>
 </body> 
 </html>	
