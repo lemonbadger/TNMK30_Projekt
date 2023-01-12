@@ -154,19 +154,6 @@ label, label:after{
     margin-bottom: 2%;
     color: rgb(3, 3, 95);
 }
-/*Skapa kolummner i AboutUs.php*/
-.columnleft{
-    text-align: center;
-    float: left;
-    width: 50%;
-    margin: 7% 0;
-}
-.columnright {
-    text-align: center;
-    float: left;
-    width: 30%;
-    margin: 7% 5% 0;
-}
 h1{
     display: flex;
     justify-content: center;
