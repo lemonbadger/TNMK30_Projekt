@@ -18,9 +18,6 @@
             <label for="darkmode_toggle">Night Mode</label>
         </div>
         <h1>About Us</h1>
-        <div class="columnleft">
-        </div>
-        <div class="columnright">
         <h3>Who are we?</h3>
         <p class="ShortIntro">We are four students from Linköping University, Sweden. We are all studying to 
             get a degree of science in engineering and this site is one of our projects. 
@@ -29,6 +26,5 @@
             The purpose is also that you, yes you, can use our webpage to search in our 
             database after a specific lego piece you have. Our webpage will then provide you
             with information about your piece such as what set it belongs to.
-        </div>
     </body>
 </html>
