@@ -43,25 +43,25 @@ body{
 }
 /*Knapparna i banderollen*/
 .NavButton{
-  display: inline-block;
-  padding: 15px 25px;
-  font-size: 2vw;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: darkorange;
-  border: none;
-  border-radius: 1vw;
-  box-shadow: 0 9px #999;
+    display: inline-block;
+    padding: 1.5vw 2vw;
+    font-size: 2vw;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: darkorange;
+    border: none;
+    border-radius: 1vw;
+    box-shadow: 0 9px #999;
 }
 .NavButton:hover{
     background-color: rgb(233, 148, 44);
 }
 .NavButton:active{
     box-shadow: 0 5px #666;
-    transform: translateY(4px);
+    transform: translateY(0.3vw);
 }
 .navbar .NavButton{
     color: #ffffff;
@@ -78,11 +78,11 @@ body{
 	justify-content: center; 
 }
 #SearchBar{
-width: 40vw;
-height: 4vw;
-font-size: 2vw;
-font-family: 'Fredoka', sans-serif;
-margin-right: 5px;
+    width: 40vw;
+    height: 4vw;
+    font-size: 2vw;
+    font-family: 'Fredoka', sans-serif;
+    margin-right: 5px;
 }
 /*Submitknapp*/
 #SubmitButton{
@@ -96,6 +96,25 @@ margin-right: 5px;
     font-size: 1.8vw;
     cursor: pointer;
 }
+.LoadMoreButton{
+    display: flex;
+    justify-content: center;
+}
+.LoadMoreButton a{
+    width: 9vw;
+    height: 2.5vw;
+    visibility: visible;
+    border-radius: 2vw;
+    color: darkorange;
+    background-color: rgb(3, 3, 95);
+    font-family: 'Staatliches', cursive;
+    font-size: 1.8vw;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 0.9vw;
+    margin-bottom: 1.5vw;
+    text-decoration: none;
+}
 /*Osynlig checkbox som tillhör nightmode-knappen*/
 #darkmode_toggle{
     width: 0;
@@ -108,40 +127,41 @@ input:checked + label{
 }
 /*Efter checkbox är itryckt så flyyttar cirkeln/label sig*/
 input:checked + label:after{
-    left: 8px;
+    left: 0.45vw;
     transform: translateX(100%);
 }
 /*Hela darkmode knappens låda*/
 label{
     float: right;
-    height: 0px;
-    width: 50px;
+    height: 0vw;
+    width: 3.3vw;
     display: block;
     position: relative;
     background: #ebebeb;
-    border-radius: 200px;
+    border-radius: 1vw;
     cursor: pointer;
     box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4), inset 0px -5px 15px rgba(255, 255, 255, 0.4);
-    margin-right: 25px;
+    margin-right: 1vw;
     color: darkorange;
     font-family: 'Fredoka', sans-serif;
     display: flex;
-    padding-top: 26px;
+    padding-top: 1.5vw;
     justify-content: right;
+    font-size: 1.1vw;
 }
 label:after{
     content: "";
-    width: 20px;
-    height: 20px;
+    width: 1.45vw;
+    height: 1.45vw;
     position: absolute;
-    top: 2px;
-    left: 2px;
+    top: 0.0vw;
+    left: 0.0vw;
     background: linear-gradient(180deg, rgb(250, 140, 0), #dea247);
-    border-radius: 180px;
+    border-radius: 1vw;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
 }
 label, label:after{
-    transition: 0.3s
+    transition: 0.7s
 }
 /*CSS för menyn, slut*
 /*Text ovanför sökfunktionen*/
@@ -149,7 +169,7 @@ label, label:after{
     display: flex;
     justify-content: center;
     font-family: 'Fredoka', sans-serif;
-    font-size: 150%;
+    font-size: 2.5vw;
     margin-top: 10%;
     margin-bottom: 2%;
     color: rgb(3, 3, 95);
@@ -209,6 +229,40 @@ h1{
     font-family: 'Fredoka', sans-serif;
     text-decoration: none;
 }
+.ResultSet{
+    display: inline-block;
+    padding: 1% 1% 1% 1%;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    /*color: #fff;*/
+    background-color: hsl(0, 0%, 93%);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px rgb(54, 54, 145);
+    color: rgb(3, 3, 90);
+    max-width: 15vw;
+    max-height: 12vw;
+    min-height: 12vw;
+    min-width: 15vw;
+    margin: 0.5vw 0.5vw 0.5vw 0.5vw;
+    overflow: auto;
+    word-wrap: break-word;  
+}
+.ResultSet:hover{
+    transform: scale(1.1);
+    transition: 0.1s;
+    box-shadow: 2vw #5b5959;
+    cursor: auto;
+}
+.TextOverflow{
+    word-wrap: break-word;
+    overflow: auto;
+}
+.Piece_text{
+    background: hsl(0, 0%, 93%);
+}
 .container{
     display: flex;
     flex-direction: row;
@@ -229,12 +283,48 @@ h3{
     word-wrap: break-word;
     overflow: auto;
 }
+/*CSS föt HowToSearch.php*/
+#HowToSearchCONTAINER{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+#HowToSearchIMG{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+/*CSS för bilder i HowToSearch.php*/
+#Pic1{
+    margin-top: 1vw;
+    width: 45vw;
+    border-radius: 2vw;
+    border-style: solid;
+    border-color: rgb(3, 3, 95);
+}
+#Pic2{
+    margin-top: 2vw;
+    width: 45vw;
+    border-radius: 2vw;
+    border-style: solid;
+    border-color: rgb(3, 3, 95);
+    margin-bottom: 4vw;
+}
+/*CSS för listor i HowToSearch.php*/
+.ListStyle{
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.6vw;
+    color: rgb(3, 3, 95);
+    display: list-item;
+    margin-left: 3vw;
+}
+/*Slut*/
+/*CSS för när darkmode är aktiverat*/
 .darkmode{
-    background: linear-gradient(rgb(3, 3, 95), rgb(241, 145, 0));
+    background: linear-gradient(rgb(3, 3, 95), rgb(0, 0, 0));
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-
 .darkmode h1{
     color: rgb(255, 255, 255);
 }
@@ -243,8 +333,25 @@ h3{
 }
 .darkmode h3{
     color: rgb(255, 255, 255);
+    background-color: rgb(46, 46, 138);
 }
-.TextOverflow{
-    word-wrap: break-word;
-    overflow: auto
+.darkmode li{
+    color: rgb(255, 255, 255);
+}
+.darkmode .TextOverflow{
+    background-color: rgb(46, 46, 138);
+}
+.darkmode #SubmitButton{
+    background-color: #ebebeb;
+    color: rgb(3, 3, 95);
+}
+.darkmode .LoadMoreButton a{
+    color: rgb(255, 255, 255);
+    background-color: rgb(46, 46, 138);
+}
+.darkmode .ResultSet{
+    background-color: rgb(46, 46, 138);
+}
+.darkmode .PieceButton{
+    background-color: rgb(46, 46, 138);
 }
