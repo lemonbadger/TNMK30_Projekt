@@ -29,6 +29,18 @@
 	
 	echo '<div class="container"><a class="PieceButton"><h3>Your piece</h3><img src= '.$SelectedImage.' /><h3> is in the following sets: </h3><a/></div>';
 
+	//Load more, uppdatera limit
+	$limitnumber = 50; //konstant 
+	
+	if(isset($_GET["update"])) //hämta från url
+	{$update = $_GET["update"];
+		
+	$limitnumberupdate = $limitnumber + $update; //update är värdet på limitupdate innan load more
+	}
+	else{
+	$limitnumberupdate = $limitnumber; //innan man tryckt load more
+	}
+
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 	$query	= "SELECT
     inventory.SetID,
@@ -45,11 +57,13 @@ AND
 	inventory.SetID = sets.SetID
 AND
 	images.ItemID = sets.SetID
-LIMIT 50";
+ORDER BY Setname
+LIMIT $limitnumberupdate";
 
 		//Skriv ut alla set															
 		$result = mysqli_query($connection, $query);	
-
+        
+		$counter = 0;
 		echo '<div class="container">';
 		while($row = mysqli_fetch_array($result)){
 				$url = null; 
@@ -77,9 +91,15 @@ LIMIT 50";
 						<td><h3>'.$SetID.'</h3></td>
 						</tr>
 					</div><a/>';
+					$counter++;
 				}
-			echo '</div>';
-		 mysqli_close($connection);
+				
+			//load more knapp
+		if($counter % 50 == 0 && $counter != 0 ){
+			echo '<a href="SearchResult.php?update='.$limitnumberupdate.'&data1='.$SelectedName.'&data2='.$SelectedColor.'&data3='.$SelectedImage.'&data4='.$SelectedPartID.'&data5='.$SelectedColorID.'" ><div> <h3> Load more </h3> </div></a>'; 
+		}
+		echo '</div>';
+		mysqli_close($connection);
 ?>
 </body> 
 </html>	
