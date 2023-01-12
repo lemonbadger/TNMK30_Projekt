@@ -4,11 +4,17 @@
 <meta charset= "utf-8">
 	<title>BrickBase</title> 
 	<link rel="stylesheet" href="BrickBase.css">
-	<script src="DarkMode.js"></script>
+	<script src="Scripts.js"></script>
 </head>
 <body>
     <div class="navbar">
-        <div class="image_placeholder"><h3>logo_placeholder</h3></div>
+	<div id="google_translate_element"></div>
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         <a class="NavButton" href="BrickBase-home.php">Home</a>
         <a class="NavButton" href="HowToSearch.php">How to search</a>
         <a class="NavButton" href="AboutUs.php">About us</a>
@@ -27,7 +33,7 @@
 		$SelectedColorID = $_GET["data5"];
     }
 	
-	echo '<div class="container"><a class="PieceButton"><h3>Your piece</h3><img src= '.$SelectedImage.' /><h3> is in the following sets: </h3><a/></div>';
+	echo '<div class="container"><a class="PieceButton"><div class ="TXT">Your piece</div><img src= '.$SelectedImage.' /><div class="TXT"> is in the following sets: </div><a/></div>';
 
 	//Load more, uppdatera limit
 	$limitnumber = 50; //konstant 
@@ -83,22 +89,23 @@ LIMIT $limitnumberupdate";
 					
 					$Setname=$row['Setname']; 
 					$SetID=$row['SetID'];
-					echo '<a class="PieceButton">
+					echo '<a class="ResultSet">
 					<div class="TextOverflow">
 						<tr>
-						<td><h3>'.$Setname.'</h3></td>
+						<td><div class="TXT">'.$Setname.'</div></td>
 						<td><img src='.$SetImageUrl.' alt="Missing Photo of Set"/></td>
-						<td><h3>'.$SetID.'</h3></td>
+						<td><div class="TXT">'.$SetID.'</div></td>
 						</tr>
 					</div><a/>';
 					$counter++;
 				}
-				
-			//load more knapp
-		if($counter % 50 == 0 && $counter != 0 ){
-			echo '<a href="SearchResult.php?update='.$limitnumberupdate.'&data1='.$SelectedName.'&data2='.$SelectedColor.'&data3='.$SelectedImage.'&data4='.$SelectedPartID.'&data5='.$SelectedColorID.'" ><div> <h3> Load more </h3> </div></a>'; 
-		}
 		echo '</div>';
+		//load more knapp
+		if($counter % 50 == 0 && $counter != 0 ){
+			echo '<div class="LoadMoreButton">';
+			echo '<a href="SearchResult.php?update='.$limitnumberupdate.'&data1='.$SelectedName.'&data2='.$SelectedColor.'&data3='.$SelectedImage.'&data4='.$SelectedPartID.'&data5='.$SelectedColorID.'" >Load more</a>';
+			echo '</div>'; 
+		}
 		mysqli_close($connection);
 ?>
 </body> 
