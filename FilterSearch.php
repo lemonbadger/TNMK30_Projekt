@@ -111,7 +111,6 @@ LIMIT $limitnumberupdate";
 				
 				
 	    //biten man klickar på skickar variabler till SearchResult (nästa sida) via URL:en
-		print "</tr>\n";
 		echo '<a class="PieceButton" href="SearchResult.php?data1='.$partname.'&data2='.$color.'&data3='.$imageUrl.'&data4='.$itemid.'&data5='.$colorid.'" >
 		<div>
 			<tr>
