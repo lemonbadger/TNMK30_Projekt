@@ -4,12 +4,17 @@
 <meta charset= "utf-8">
 	<title>BrickBase</title> 
 	<link rel="stylesheet" href="BrickBase.css">
-	<script src="DarkMode.js"></script>
-<title>BrickBase</title>
+	<script src="Scripts.js"></script>
 </head>
 <body>
     <div class="navbar">
-        <div class="image_placeholder"><h3>logo_placeholder</h3></div>
+	<div id="google_translate_element"></div>
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         <a class="NavButton" href="BrickBase-home.php">Home</a>
         <a class="NavButton" href="HowToSearch.php">How to search</a>
         <a class="NavButton" href="AboutUs.php">About us</a>
@@ -29,21 +34,16 @@
 	}
 	print("<h3>Your Search: $FirstSearch </h3>");
 	
-	
 	//Load more, uppdatera limit
 	$limitnumber = 50; //konstant 
-	
 	if(isset($_GET["update"])) //hämta från url
 	{$update = $_GET["update"];
-		
 	$limitnumberupdate = $limitnumber + $update; //update är värdet på limitupdate innan load more
 	}
 	else{
 	$limitnumberupdate = $limitnumber; //innan man tryckt load more
 	}
-
-	$pieces = explode(",", 	$FirstSearch);
-	
+	$pieces = explode(",", 	$FirstSearch); //Dela upp det som står mellan "," i sökningen så de kan jämföras för sig själva
 	$connection = mysqli_connect("mysql.itn.liu.se", "lego", "", "lego"); 
 		$query = "SELECT DISTINCT
 	MAX(images.ColorID) AS 'ColorID',
@@ -58,12 +58,20 @@ FROM
 	parts,
 	images
 WHERE 
-	((parts.Partname LIKE '%$pieces[0]%'
-AND 
-	colors.Colorname LIKE '%$pieces[1]%')
+	((parts.Partname LIKE '%$pieces[0]%' /*Optimerad fråga till databasen beroende på hur användaren söker*/ 
+AND 									 /*Då sökningen kan skrivas med antingen färg eller Partname/PartID först*/
+	colors.Colorname LIKE '%$pieces[1]%') 
 OR 
 	(parts.Partname LIKE '%$pieces[1]%'
 AND 
+	colors.Colorname LIKE '%$pieces[0]%')
+OR
+	(parts.PartID LIKE '%$pieces[0]%'
+AND 
+	colors.Colorname LIKE '%$pieces[1]%')
+OR
+	(parts.PartID LIKE '%$pieces[1]%'
+AND
 	colors.Colorname LIKE '%$pieces[0]%'))
 AND
 	images.ItemID = parts.PartID
@@ -112,11 +120,11 @@ LIMIT $limitnumberupdate";
 				
 	    //biten man klickar på skickar variabler till SearchResult (nästa sida) via URL:en
 		echo '<a class="PieceButton" href="SearchResult.php?data1='.$partname.'&data2='.$color.'&data3='.$imageUrl.'&data4='.$itemid.'&data5='.$colorid.'" >
-		<div>
+		<div class="TextOverflow">
 			<tr>
 			<td><img src='.$imageUrl.' alt="Missing Image of Piece"/></td>
-			<td><h3>'.$color.'</h3></td>
-			<td><h3>'.$partname.'</h3></td>
+			<td><div class="TXT">'.$color.'</div></td>
+			<td><div class="TXT">'.$partname.'</div></td>
 			</tr>
 		</div></a>';
 		$counter++;
@@ -126,15 +134,13 @@ LIMIT $limitnumberupdate";
 		if($counter == 0){
 			echo'<p class="ShortIntro"> No result for "'.$FirstSearch.'". Please look at "how to search"! </p>'; 	
 		}
-			
+		echo '</div>';	
 		//load more knapp
 		if($counter % 50 == 0 && $counter != 0 ){
-			echo '<a href="FilterSearch.php?update='.$limitnumberupdate.'&search='.$FirstSearch.'" ><div> <h3>Load more </h3> </div></a>'; 
+			echo '<div class="LoadMoreButton">';
+			echo '<a href="FilterSearch.php?update='.$limitnumberupdate.'&search='.$FirstSearch.'" >Load more</a>'; 
+			echo '</div>';
 		}
-	
-		echo '</div>';
-		
-		
 	mysqli_close($connection);
 
 ?>
