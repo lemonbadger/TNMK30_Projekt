@@ -5,6 +5,8 @@
 /*Typsnitt som används för bitar och set*/
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap');
+
 body{
     background: linear-gradient(rgb(229, 241, 252), rgb(255, 194, 103));
     margin: 0;
@@ -16,13 +18,6 @@ body{
     margin: 0;
 }
 /*CSS för menyn, start*/
-
-/*Placeholder för eventuell loga*/
-.image_placeholder{
-    color: aliceblue;
-    font-family: 'Fredoka', sans-serif;
-    padding-left: 5px;
-}
 /*Banderollen överst på sidan för navigation mellan olika sidor*/
 .navbar{
     overflow: hidden;
@@ -81,7 +76,7 @@ body{
     width: 40vw;
     height: 4vw;
     font-size: 2vw;
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'Outfit', sans-serif;
     margin-right: 5px;
 }
 /*Submitknapp*/
@@ -92,10 +87,11 @@ body{
     border-radius: 20%;
     color: darkorange;
     background-color: rgb(3, 3, 95);
-    font-family: 'Staatliches', cursive;
-    font-size: 1.8vw;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.3vw;
     cursor: pointer;
 }
+/*Knappen för att hämta mer resultat*/
 .LoadMoreButton{
     display: flex;
     justify-content: center;
@@ -169,9 +165,17 @@ label, label:after{
     display: flex;
     justify-content: center;
     font-family: 'Fredoka', sans-serif;
-    font-size: 2.5vw;
+    font-size: 2vw;
     margin-top: 10%;
     margin-bottom: 2%;
+    color: rgb(3, 3, 95);
+}
+.AboutUsTxt{
+    display: flex;
+    justify-content: center;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.5vw;
+    margin: 2vw 7vw 2vw 7vw;
     color: rgb(3, 3, 95);
 }
 /*Skapa kolummner i AboutUs.php*/
@@ -186,14 +190,6 @@ label, label:after{
     float: left;
     width: 30%;
     margin: 7% 5% 0;
-}
-h1{
-    display: flex;
-    justify-content: center;
-    font-family: 'Fredoka', sans-serif;             
-    margin: 5% 20% 0; 
-    color: rgb(3, 3, 95);
-    font-size: 4vw;
 }
 /*Knapp för bit som sedan länkas till set*/
 .PieceButton{
@@ -229,6 +225,7 @@ h1{
     font-family: 'Fredoka', sans-serif;
     text-decoration: none;
 }
+/*Boxen som visar de olika resultaten av set*/
 .ResultSet{
     display: inline-block;
     padding: 1% 1% 1% 1%;
@@ -253,9 +250,9 @@ h1{
 .ResultSet:hover{
     transform: scale(1.1);
     transition: 0.1s;
-    box-shadow: 2vw #5b5959;
     cursor: auto;
 }
+/*Om det är för mycket text för för att få plats i boxen så skapas en scroll funktion*/
 .TextOverflow{
     word-wrap: break-word;
     overflow: auto;
@@ -269,13 +266,31 @@ h1{
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    padding-bottom: 2vw;
 }
-/*Slut*/
+/*h taggar*/
+h1{
+    display: flex;
+    justify-content: center;
+    font-family: 'Fredoka', sans-serif;             
+    margin: 5% 20% 0; 
+    color: rgb(3, 3, 95);
+    font-size: 4vw;
+}
 h2{
     font-family: 'Fredoka', sans-serif;
 }
 h3{
     font-family: 'Staatliches', cursive;
+    color: rgb(3, 3, 95);
+    display: flex;
+    justify-content: center;
+    font-size: 2vw;
+    word-wrap: break-word;
+    overflow: auto;
+}
+.TXT{
+    font-family: 'Outfit', sans-serif;
     color: rgb(3, 3, 95);
     display: flex;
     justify-content: center;
@@ -301,6 +316,7 @@ h3{
     border-radius: 2vw;
     border-style: solid;
     border-color: rgb(3, 3, 95);
+    margin-left: 2vw;
 }
 #Pic2{
     margin-top: 2vw;
@@ -309,6 +325,8 @@ h3{
     border-style: solid;
     border-color: rgb(3, 3, 95);
     margin-bottom: 4vw;
+    margin-left: 2vw;
+    margin-right: 1vw;
 }
 /*CSS för listor i HowToSearch.php*/
 .ListStyle{
@@ -318,7 +336,6 @@ h3{
     display: list-item;
     margin-left: 3vw;
 }
-/*Slut*/
 /*CSS för när darkmode är aktiverat*/
 .darkmode{
     background: linear-gradient(rgb(3, 3, 95), rgb(0, 0, 0));
@@ -339,7 +356,7 @@ h3{
     color: rgb(255, 255, 255);
 }
 .darkmode .TextOverflow{
-    background-color: rgb(46, 46, 138);
+    background: rgb(46, 46, 138);
 }
 .darkmode #SubmitButton{
     background-color: #ebebeb;
@@ -354,4 +371,8 @@ h3{
 }
 .darkmode .PieceButton{
     background-color: rgb(46, 46, 138);
+}
+.darkmode .TXT{
+    background-color: rgb(46, 46, 138);
+    color: rgb(255, 255, 255);
 }
