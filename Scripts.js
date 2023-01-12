@@ -33,4 +33,8 @@ function DarkMode(){
     var ResButton = document.getElementsByClassName('a ResultSet');
     for (var i = 0; i < ResButton.length; i++)
         ResButton[i].classList.toggle("darkmode");
+    
+        var PieceTXT = document.getElementsByClassName('TXT');
+    for (var i = o; i < PieceTXT.length; i++)
+        PieceTXT[i].classList.toggle("darkmode");
 }
