@@ -28,7 +28,7 @@
     <div id="HowToSearchCONTAINER">
         <div id="HowToSearchIMG">
             <img id="Pic1" src="./Images/bild1.png" alt="Instructional Image">
-            <img id="Pic2"src="./Images/bild2.png" alt="Instructional Image">
+            <img id="Pic2" src="./Images/bild2.png" alt="Instructional Image">
         </div>
         <div id="HowToSearchTEXT">
             <p class="ShortIntro">
